@@ -18,8 +18,14 @@ class Controller extends BaseController
         $response = $helper->request('get');
         $responseData = json_decode($response->getBody());
 
+        // Iterate through route data and group routes
+        $routeData = array();
+        foreach($responseData->data as $route) {
+            $routeData[$route->attributes->type][] = $route;
+        }
+
         // Send responseData to the view to build out the tables
-        return view('welcome', array('routeData' => $responseData));
+        return view('welcome', array('routeData' => $routeData));
 
     }
     public function showSchedule($request)

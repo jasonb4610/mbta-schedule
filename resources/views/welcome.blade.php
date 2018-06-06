@@ -14,11 +14,27 @@
     </head>
     <body>
         <table>
-        <?php foreach($routeData->data as $route) { ?>
-            <tr>
-                <td><a style="color: {{ $route->attributes->text_color}}; background-color: {{$route->attributes->color}}" href="/schedule/{{ $route->id }}">{{ $route->attributes->long_name }}</a></td>
-            </tr>
-        <?php } ?>
+        <?php foreach($routeData as $routeGroup) {
+                foreach($routeGroup as $route) {
+                    $routeName = '';
+                    if ($route->attributes->long_name !== '') {
+                        $routeName = $route->attributes->long_name;
+                    } else {
+                        $routeName = $route->attributes->description . ' ' . $route->attributes->short_name;
+                    }
+                    ?>
+                    <tr>
+                        <td style="background-color: #{{$route->attributes->color}}">
+                            <a style="color: #{{ $route->attributes->text_color}};"
+                               href="/schedule/{{ $route->id }}">
+                                {{ $routeName }}
+                            </a>
+                        </td>
+                    </tr>
+        <?php
+                }
+            }
+        ?>
         </table>
     </body>
 </html>
