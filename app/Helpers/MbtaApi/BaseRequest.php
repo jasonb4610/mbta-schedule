@@ -4,6 +4,7 @@ namespace App\Helpers\MbtaApi;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 
 abstract class BaseRequest
 {
@@ -19,16 +20,18 @@ abstract class BaseRequest
         if (strlen($this->_resource) > 0) {
             $requestUri .= '/' . $this->_resource;
         }
+        $filterString = '';
         if (count($filters) > 0) {
             $filterString = '?filter';
             foreach ($filters as $k => $v) {
-                $filterString = $k . '=' . $v;
+                $filterString .= $k . '=' . $v;
             }
             $requestUri .= $filterString;
         }
 
-        $client = new Client();
-        $result = $client->$method($requestUri);
+        $ch = curl_init($requestUri);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
         return $result;
     }
 }

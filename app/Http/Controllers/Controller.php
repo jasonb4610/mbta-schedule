@@ -16,7 +16,7 @@ class Controller extends BaseController
         // Execute API call to retrieve all route information
         $helper = new MbtaApi\Routes();
         $response = $helper->request('get');
-        $responseData = json_decode($response->getBody());
+        $responseData = json_decode($response);
 
         // Iterate through route data and group routes
         $routeData = array();
@@ -33,7 +33,7 @@ class Controller extends BaseController
         // Execute API call to retrieve route information
         $helper = new MbtaApi\Schedule();
         $response = $helper->request('get', array(), array('[route]' => $request));
-        $responseData = json_decode($response->getBody());
+        $responseData = json_decode($response);
 
         // Send responseData to the view to build out schedule table
         return view('schedule', array('scheduleData' => $responseData));

@@ -12,7 +12,7 @@ namespace App\Helpers\MbtaApi;
 class Schedule extends BaseRequest
 {
 
-    protected $_resource = 'schedule';
+    protected $_resource = 'schedules';
 
     public function request($method, $params = array(), $filters = array())
     {
